@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 describe Category do
+  it "saves itself" do
+    video = Video.new(title: "Family Guy", description: "Cartoon for adults.", small_cover_url: "/tmp/family_guy.jpg", large_cover_url: "/tmp/blank_large.jpg")
+    video.save
+
+    expect(Video.first).to eq(video)
+  end
+
   it "has many videos" do
     v1 = Video.create(title: "Family Guy", description: "Cartoon for adults.", small_cover_url: "/tmp/family_guy.jpg", large_cover_url: "/tmp/blank_large.jpg")
     v2 = Video.create(title: "Monk", description: "Not really sure what this is.", small_cover_url: "/tmp/monk.jpg", large_cover_url: "/tmp/monk_large.jpg")
