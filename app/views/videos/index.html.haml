@@ -1,7 +1,7 @@
 %article.video_category
   - @categories.each do |category|
     %header
-      %h3= link_to "#{category.name}"
+      %h3= link_to "#{category.name}", genre_path(category)
       %br
       .videos.row
         - @videos.each do |video|

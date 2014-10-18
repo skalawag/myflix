@@ -6,6 +6,9 @@ class VideosController < ApplicationController
   end
 
   def video
+  end
 
+  def genre
+    @category = Category.find params[:genre]
   end
 end
