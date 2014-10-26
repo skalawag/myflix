@@ -16,6 +16,14 @@ describe "Category.recent_videos" do
     3.times do |n|
       cat.videos << Video.create(title: "#{n}", created_at: n.days.ago)
     end
-    expect(cat.recent_videos).to eq(Video.all)
+    expect(cat.recent_videos.to_a).to eq(Video.all)
+  end
+
+  it "should return most recent 6 videos" do
+    cat = Category.create(name: "Test")
+    10.times do |n|
+      cat.videos << Video.create(title: "#{n}", created_at: n.days.ago)
+    end
+    expect(cat.recent_videos.to_a).to eq(Video.all[0..5])
   end
 end
