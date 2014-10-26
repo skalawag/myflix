@@ -8,6 +8,11 @@ class VideosController < ApplicationController
   def video
   end
 
+  def search
+    binding.pry
+    @videos = Video.search_by_title(params[:search])
+  end
+
   def genre
     @category = Category.find params[:genre]
   end
