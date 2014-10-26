@@ -1,0 +1,12 @@
+%article.video_category
+  %header
+    - if @videos.nil?
+      %h3= "I'm sorry. Your search returned no results."
+    - else
+      %h3= "Your search results:"
+      %br
+      .videos.row
+        - @videos.each do |video|
+          .video.col-sm-2
+            = link_to "", nil do
+              %img(src="#{video.small_cover_url}")
