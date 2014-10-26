@@ -1,10 +1,11 @@
 %article.video_category
   - @categories.each do |category|
-    %header
-      %h3= link_to "#{category.name}", genre_path(category)
-      %br
-      .videos.row
-        - @videos.each do |video|
-          .video.col-sm-2
-            = link_to "", nil do
-              %img(src="#{video.small_cover_url}")
+    - if not category.videos.empty?
+      %header
+        %h3= link_to "#{category.name}", genre_path(category)
+        %br
+        .videos.row
+          - category.recent_videos.each do |video|
+            .video.col-sm-2
+              = link_to "", nil do
+                %img(src="#{video.small_cover_url}")
