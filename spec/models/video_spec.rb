@@ -17,5 +17,10 @@ describe "Video.search_by_title" do
     expect(result).to eq(Video.first)
   end
 
-  it "should return a list of all videos making a partial match"
+  it "should return a list of all videos making a partial match" do
+    v1 = Video.create(title: "Family Guy", description: "Cartoon for adults.", small_cover_url: "/tmp/family_guy.jpg", large_cover_url: "/tmp/blank_large.jpg")
+    v2 = Video.create(title: "Guy in the Middle", description: "Cartoon for adults.", small_cover_url: "/tmp/family_guy.jpg", large_cover_url: "/tmp/blank_large.jpg")
+
+    expect(Video.search_by_title("Guy")).to eq([v1,v2])
+  end
 end
