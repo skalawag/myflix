@@ -11,7 +11,7 @@ describe "Category.recent_videos" do
     expect(cat.recent_videos).to eq([])
   end
 
-  it "should return up to 3 videos in reverse chronological order" do
+  it "should return 3 videos in reverse chronological order" do
     cat = Category.create(name: "Test")
     3.times do |n|
       cat.videos << Video.create(title: "#{n}", created_at: n.days.ago)
