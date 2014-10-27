@@ -15,4 +15,6 @@ Myflix::Application.routes.draw do
   # special route
   get '/search', to: 'videos#search_by_title', as: :search
 
+  # sessions
+  resources :session, only: [:new, :create, :destroy], as: :login
 end
