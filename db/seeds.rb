@@ -26,3 +26,6 @@ pb.categories << Category.find_by(name: "Dramas")
 pb.categories << Category.find_by(name: "Foreign")
 fut.categories << Category.find_by(name: "Comedies")
 fut.categories << Category.find_by(name: "Comedies")
+
+User.create(username:  "Joe", :email "joe@joe.com" , password: "joe")
+User.create(username:  "Mary", :email "mary@mary.com" , password: "mary")
