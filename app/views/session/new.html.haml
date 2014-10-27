@@ -1,7 +1,7 @@
 %section.sign_in.container
   .row
     .col-sm-10.col-sm-offset-1
-      = form_for @user, url: '/login', builder: MyFormBuilder do |f|
+      = form_for @user, url: login_index_path do |f|
         %header
           %h1 Sign in
           = f.label :email, "Email Address"
