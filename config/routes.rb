@@ -7,7 +7,7 @@ Myflix::Application.routes.draw do
   # synonym for videos
   get '/home', to: 'videos#index'
   # this is like show:
-  get '/video', to: 'videos#video'
+  get '/video', to: 'videos#show'
 
   # this is a category route
   get '/genre/:genre', to: 'videos#genre', as: :genre

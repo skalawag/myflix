@@ -9,7 +9,7 @@ class VideosController < ApplicationController
     @categories = Category.all
   end
 
-  def video
+  def show
   end
 
   def search_by_title
