@@ -1,15 +1,15 @@
 %section.sign_in.container
   .row
     .col-sm-10.col-sm-offset-1
-      = form_for @user, url: login_index_path do |f|
+      = form_tag login_index_path do
         %header
           %h1 Sign in
-          = f.label :email, "Email Address"
+          = label_tag :email, "Email Address"
           <br/>
-          = f.text_field :email
+          = text_field_tag :email
           <br/>
-          = f.label :password, "Password"
+          = label_tag :password, "Password"
           <br/>
-          = f.password_field :password
+          = password_field_tag :password
           <br/><br/>
-          = f.submit "Submit"
+          = submit_tag "Submit"
