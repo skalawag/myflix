@@ -13,3 +13,11 @@
  *= require whitespace-reset
  *= require_tree .
 */
+
+.errors {
+    color: red;
+}
+
+#flash_error {
+    background: pink;
+}

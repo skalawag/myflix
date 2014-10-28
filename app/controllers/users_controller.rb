@@ -4,13 +4,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.new(user_params)
-    if u.id?
+    @user = User.new(user_params)
+    if @user.id?
       redirect_to new_login_path # with errors
-    elsif user.valid? && user.save
+    elsif @user.valid? && @user.save
       redirect_to videos_path # with welcome
     else
-      redirect_to registration_path # with errors
+      @user.save
+      render :new
     end
   end
 

@@ -8,6 +8,7 @@ class SessionController < ApplicationController
     if user && user.authenticate(params[:user][:password])
       redirect_to videos_path
     else
+      flash[:error] = "Either the email or the password you entered is defective."
       redirect_to new_login_path
     end
   end

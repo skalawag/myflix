@@ -1,5 +1,5 @@
 Myflix::Application.routes.draw do
-  root to: 'front#index'
+  root to: 'pages#front'
   get 'ui(/:action)', controller: 'ui'
 
   resources :videos
@@ -17,6 +17,7 @@ Myflix::Application.routes.draw do
 
   # new users
   get '/registration', to: 'users#new', as: :registration
+  post '/registration', to: 'users#create', as: :register
 
   # sessions
   resources :session, only: [:new, :create, :destroy], as: :login
