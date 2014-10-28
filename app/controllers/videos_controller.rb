@@ -1,4 +1,5 @@
 class VideosController < ApplicationController
+  before_action :require_user
 
   def index
     # FIXME: This is probably not a good idea. What if we have 100K
