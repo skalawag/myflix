@@ -11,6 +11,11 @@ class VideosController < ApplicationController
 
   def show
     @video = Video.find(params[:id])
+    @reviews = @video.reviews
+    @average = @reviews.map { |r| r.rating }.reduce {|i,j| i + j } / @reviews.count.to_f
+    @review = Review.new
+    @review.user_id = current_user.id
+    @review.video_id = @video.id
   end
 
   def search_by_title
