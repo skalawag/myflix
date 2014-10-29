@@ -15,7 +15,7 @@ describe "Category.recent_videos" do
   it "should return 3 videos in reverse chronological order" do
     cat = Category.create(name: "Test")
     3.times do |n|
-      cat.videos << Video.create(title: "#{n}", created_at: n.days.ago)
+      cat.videos << Video.create(title: "#{n}", description: "#{n} description", created_at: n.days.ago)
     end
     expect(cat.recent_videos.to_a).to eq(Video.all)
   end
@@ -23,7 +23,7 @@ describe "Category.recent_videos" do
   it "should return most recent 6 videos" do
     cat = Category.create(name: "Test")
     10.times do |n|
-      cat.videos << Video.create(title: "#{n}", created_at: n.days.ago)
+      cat.videos << Video.create(title: "#{n}", description: "#{n} description", created_at: n.days.ago)
     end
     expect(cat.recent_videos.to_a).to eq(Video.all[0..5])
   end
