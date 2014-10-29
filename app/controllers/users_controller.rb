@@ -5,10 +5,8 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.id?
-      redirect_to new_login_path # with errors
-    elsif @user.valid? && @user.save
-      redirect_to videos_path # with welcome
+    if @user.valid? && @user.save
+      redirect_to home_path # with welcome
     else
       @user.save
       render :new
