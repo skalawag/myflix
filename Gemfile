@@ -11,6 +11,7 @@ gem 'jquery-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', platforms: :ruby
 gem 'bcrypt'
+gem 'fabrication'
 
 group :development do
   gem 'sqlite3'
@@ -28,7 +29,6 @@ end
 group :test do
   gem 'shoulda-matchers'
   gem 'database_cleaner', '1.2.0'
-  gem 'shoulda-matchers'
 end
 
 group :production do
