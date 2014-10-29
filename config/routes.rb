@@ -5,9 +5,11 @@ Myflix::Application.routes.draw do
   # synonym for videos
   get '/home', to: 'videos#index'
 
-  resource :videos, only: [:index, :show]
+  resource :videos, only: [:index]
   # this is a category route
   get '/genre/:genre', to: 'videos#genre', as: :genre
+  # show a particular video
+  get '/video/:id', to: 'videos#show'
 
   # special route
   get '/search', to: 'videos#search_by_title', as: :search
