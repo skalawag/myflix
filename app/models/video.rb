@@ -9,4 +9,8 @@ class Video < ActiveRecord::Base
   def self.search_by_title(title)
     where("title LIKE ?", "%#{title}%")
   end
+
+  def average_rating
+    self.reviews.map { |r| r.rating }.reduce {|i,j| i + j } / @reviews.count.to_f
+  end
 end
