@@ -5,7 +5,7 @@ Myflix::Application.routes.draw do
   # synonym for videos
   get '/home', to: 'videos#index'
 
-  resource :videos, only: [:index]
+  resources :videos, only: [:index]
 
   # this is a category route
   get '/genre/:genre', to: 'videos#genre', as: :genre
@@ -24,6 +24,6 @@ Myflix::Application.routes.draw do
   post '/registration', to: 'users#create', as: :register
 
   # sessions
-  resources :session, only: [:new, :create], as: :login
+  resource :session, only: [:new, :create], as: :login
   get '/logout', to: 'session#destroy'
 end
