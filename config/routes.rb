@@ -2,15 +2,19 @@ Myflix::Application.routes.draw do
   root to: 'pages#front'
   get 'ui(/:action)', controller: 'ui'
 
-  resources :videos
-
   # synonym for videos
   get '/home', to: 'videos#index'
-  # this is like show:
-  get '/video', to: 'videos#show'
+
+  resource :videos, only: [:index]
 
   # this is a category route
   get '/genre/:genre', to: 'videos#genre', as: :genre
+
+  # show a particular video
+  get '/video/:id', to: 'videos#show', as: :show
+
+  # post to reviews
+  post '/video/:id', to: 'reviews#create', as: :new_review
 
   # special route
   get '/search', to: 'videos#search_by_title', as: :search

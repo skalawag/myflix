@@ -5,6 +5,43 @@
         %img(src="/tmp/blank_large.jpg")
       .video_info.col-sm-3
         %header
-          %h3 Futurama
-          %span Rating: 4.5/5.0
-        %p Pizza boy Philip J. Fry awakens in the 31st century after 1,000 years of cryogenic preservation in this animated series. After he gets a job at an interplanetary delivery service, Fry embarks on ridiculous escapades to make sense of his predicament.
+          %h3 #{@video.title}
+          %span Rating: #{@average.round(1)} / 5.0
+        %p #{@video.description}
+
+%section.reviews.container
+  .row
+    .col-sm-10.col-sm-offset-1
+      = form_for @review, url: new_review_path do |f|
+        = f.hidden_field(:video_id)
+        = f.hidden_field(:user_id)
+        %fieldset
+          .form-group
+            = f.label :rating, "Rate this video"
+            .row
+              .col-sm-3
+                %select.form-control(name="rating")
+                  %option(value="5") 5 Stars
+                  %option(value="4") 4 Stars
+                  %option(value="3") 3 Stars
+                  %option(value="2") 2 Stars
+                  %option(value="1") 1 Star
+          .form-group
+            = f.label :review, "Write Review"
+            .row
+              .col-sm-8
+                = f.text_area(:review, cols: 80, rows: 10)
+        %fieldset.form-group.actions.clearfix
+          %input(type="submit" value="Submit" class="btn btn-success")
+          %a(href="") Cancel
+      %header
+        %h3 User Reviews (#{@video.reviews.count})
+      %ul
+        - @reviews.each do |review|
+          %article.review
+            %li.row
+              .col-sm-2
+                %span Rating: #{review.rating} / 5
+                %p by <a href="">#{review.user.username}</a>
+              .col-sm-8
+                %p #{review.review}
