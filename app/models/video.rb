@@ -11,6 +11,6 @@ class Video < ActiveRecord::Base
   end
 
   def average_rating
-    self.reviews.map { |r| r.rating }.reduce {|i,j| i + j } / @reviews.count.to_f
+    self.reviews.map { |r| r.rating }.reduce {|i,j| i + j } / self.reviews.count.to_f
   end
 end
