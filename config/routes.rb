@@ -9,7 +9,7 @@ Myflix::Application.routes.draw do
   # this is a category route
   get '/genre/:genre', to: 'videos#genre', as: :genre
   # show a particular video
-  get '/video/:id', to: 'videos#show'
+  get '/video/:id', to: 'videos#show', as: :show
   post '/video/:id', to: 'reviews#create', as: :new_review
 
   # special route

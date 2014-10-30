@@ -3,10 +3,10 @@ class ReviewsController < ApplicationController
     review = Review.create({rating: params[:rating]}.merge(review_params))
     if review && review.valid?
       review.save
-      redirect_to "/video/#{review.video_id}"
+      redirect_to show_path(review.video_id)
     else
       flash[:error] = "You cannot submit a blank review!"
-      redirect_to "/video/#{review_params[:video_id]}"
+      redirect_to show_path(review_params[:video_id])
     end
   end
 
