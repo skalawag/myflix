@@ -13,7 +13,7 @@ describe VideosController do
 
       it "sets @video" do
         get :show, id: result.id
-        assigns(:video).should eq(result)
+        expect(assigns(:video)).to eq(result)
       end
 
       it "renders the video page for a given video" do

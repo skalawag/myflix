@@ -5,4 +5,6 @@ describe User do
   it { should validate_presence_of :email }
   it { should validate_presence_of :username }
   it { should have_many :reviews }
+  it { should have_many :queued_videos }
+  it { should have_many :videos }
 end
