@@ -22,6 +22,12 @@ class VideosController < ApplicationController
     @videos = Video.search_by_title(params[:search_term])
   end
 
+  def add_to_queue
+    video = Video.find_by id: params[:id]
+    current_user.videos << video
+    redirect_to queue_user_path(current_user.id)
+  end
+
   def genre
     @category = Category.find params[:genre]
   end
