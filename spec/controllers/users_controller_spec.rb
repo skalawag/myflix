@@ -1,6 +1,25 @@
 require 'spec_helper'
 
 describe UsersController do
+  describe "GET queue" do
+    it "sets @queued_videos to [] if user has no videos in queue" do
+      user = Fabricate(:user)
+      session[:user_id] = user.id
+      get :queue, id: user.id
+      expect(assigns(:queued_videos)).to eq([])
+    end
+
+    it "sets @queued_videos to a an array of users queued videos if they exist" do
+      user = Fabricate(:user)
+      session[:user_id] = user.id
+      3.times do
+        user.videos << Fabricate(:video)
+      end
+      get :queue, id: user.id
+      expect(assigns(:queued_videos)).to eq(Video.all)
+    end
+  end
+
   describe "GET new" do
     it "sets @user instance variable" do
       get :new

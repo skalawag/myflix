@@ -6,6 +6,8 @@ describe Video do
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:description) }
   it { should have_many :reviews }
+  it { should have_many :queued_videos }
+  it { should have_many :users }
 end
 
 describe "Video.search_by_title" do

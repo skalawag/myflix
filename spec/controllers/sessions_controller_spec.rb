@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SessionController do
+describe SessionsController do
   describe "GET new" do
 
     it "redirects to home_path if current user exists" do
