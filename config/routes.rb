@@ -8,6 +8,7 @@ Myflix::Application.routes.draw do
   resources :videos, only: [:index] do
     member do
       get :add_to_queue
+      post :remove_from_queue
     end
   end
 

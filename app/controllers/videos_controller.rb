@@ -28,6 +28,12 @@ class VideosController < ApplicationController
     redirect_to queue_user_path(current_user.id)
   end
 
+  def remove_from_queue
+    video = Video.find_by id: params[:id]
+    current_user.videos.delete(video)
+    redirect_to queue_user_path(current_user.id)
+  end
+
   def genre
     @category = Category.find params[:genre]
   end
