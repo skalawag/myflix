@@ -22,7 +22,7 @@ class VideosController < ApplicationController
 
   def add_to_queue
     video = Video.find_by id: params[:id]
-    current_user.videos << video
+    QueuedVideo.create(user_id: current_user.id, video_id: video.id, queue_position: current_user.videos.count + 1)
     redirect_to queue_user_path(current_user.id)
   end
 
