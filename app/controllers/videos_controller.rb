@@ -13,9 +13,7 @@ class VideosController < ApplicationController
     @video = Video.find(params[:id])
     @reviews = @video.reviews
     @average = @video.average_rating
-    @review = Review.new
-    @review.user_id = current_user.id
-    @review.video_id = @video.id
+    @review = Review.new(user_id: current_user.id, video_id: @video.id)
   end
 
   def search_by_title
