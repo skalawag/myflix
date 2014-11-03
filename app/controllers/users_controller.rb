@@ -17,6 +17,22 @@ class UsersController < ApplicationController
     @queued_videos = current_user.videos.order('queue_position')
   end
 
+  # "queue_items"=>[{"id"=>"1", "position"=>"3"},
+  #                 {"id"=>"3", "position"=>"2"},
+  #                 {"id"=>"2", "position"=>"1"}],
+
+  def update_queue
+    queue_items = params[:queue_items].sort { |i,j| i['position'] <=> j['position'] }
+    position_counter = 1
+    queue_items.each do |item|
+      queued_video = QueuedVideo.where(user_id: current_user.id,
+                                       video_id: item["id"])
+      queued_video.first.update(queue_position: position_counter)
+      position_counter += 1
+    end
+    redirect_to queue_user_path(current_user.id)
+  end
+
   private
 
   def user_params
