@@ -2,32 +2,41 @@ require 'spec_helper'
 
 describe UsersController do
   describe "GET queue" do
-    it "sets @queued_videos to [] if user has no videos in queue" do
-      user = Fabricate(:user)
-      session[:user_id] = user.id
-      get :queue, id: user.id
-      expect(assigns(:queued_videos)).to eq([])
-    end
-
-    it "sets @queued_videos to a an array of users queued videos if they exist" do
-      user = Fabricate(:user)
-      session[:user_id] = user.id
-      3.times do
-        user.videos << Fabricate(:video)
+    context "with existing user" do
+      before do
+        Fabricate(:user)
+        session[:user_id] = User.first.id
       end
-      get :queue, id: user.id
-      expect(assigns(:queued_videos).to_a).to eq(Video.all)
-    end
 
-    it "sets @queued_videos according to queue_position order" do
-      user = Fabricate(:user)
-      session[:user_id] = user.id
-      3.times do |n|
-        QueuedVideo.create(user_id: n+1, video_id: n+1, queue_position: 3-n)
+      let(:user) { User.first }
+
+      it "sets @queued_videos to [] if user has no videos in queue" do
+        get :queue, id: user.id
+        expect(assigns(:queued_videos)).to eq([])
       end
-      get :queue, id: user.id
-      expect(assigns(:queued_videos)).to eq(Video.all.reverse)
+
+      it "sets @queued_videos to array of users queued videos if they exist" do
+        3.times do
+          user.videos << Fabricate(:video)
+        end
+        get :queue, id: user.id
+        expect(assigns(:queued_videos).to_a).to eq(Video.all)
+      end
+
+      it "sets @queued_videos according to queue_position order" do
+        3.times do |n|
+          QueuedVideo.create(user_id: n+1, video_id: n+1, queue_position: 3-n)
+        end
+        get :queue, id: user.id
+        expect(assigns(:queued_videos)).to eq(Video.all.reverse)
+      end
     end
+  end
+
+  describe "POST queue" do
+    it "swaps two items on the queue, where the user explicitly numbers them"
+    it "moves an item to the end if user renumbers it largest"
+    it "sorts out duplicate numbers in a default way"
   end
 
   describe "GET new" do
