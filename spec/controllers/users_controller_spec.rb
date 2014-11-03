@@ -16,7 +16,17 @@ describe UsersController do
         user.videos << Fabricate(:video)
       end
       get :queue, id: user.id
-      expect(assigns(:queued_videos)).to eq(Video.all)
+      expect(assigns(:queued_videos).to_a).to eq(Video.all)
+    end
+
+    it "sets @queued_videos according to queue_position order" do
+      user = Fabricate(:user)
+      session[:user_id] = user.id
+      3.times do |n|
+        QueuedVideo.create(user_id: n+1, video_id: n+1, queue_position: 3-n)
+      end
+      get :queue, id: user.id
+      expect(assigns(:queued_videos)).to eq(Video.all.reverse)
     end
   end
 
