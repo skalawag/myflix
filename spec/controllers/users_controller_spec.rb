@@ -33,10 +33,50 @@ describe UsersController do
     end
   end
 
-  describe "POST queue" do
-    it "swaps two items on the queue, where the user explicitly numbers them"
-    it "moves an item to the end if user renumbers it largest"
-    it "sorts out duplicate numbers in a default way"
+  describe "POST update_queue" do
+    context "with existing user and queue" do
+      before do
+        Fabricate(:user)
+        session[:user_id] = User.first.id
+        3.times do |n|
+          video = Fabricate(:video)
+          QueuedVideo.create(user_id: session[:user_id],
+                             video_id: video.id,
+                             queue_position: n+1)
+        end
+      end
+
+      it "test setup is correct" do
+        expect(QueuedVideo.all.map(&:'video_id')).to eq(Video.all.map(&:id))
+      end
+
+      it "swaps two items on the queue, where the user explicitly numbers them" do
+        post :update_queue, queue_items: [{"id" => "1", "position" => "2"},
+                                          {"id" => "2", "position" => "1"},
+                                          {"id" => "3", "position" => "3"}]
+        # the video_id's ordered by queue_position are 2, 1, 3
+        expect(QueuedVideo.where(user_id: session[:user_id]).order('queue_position').map(&:video_id)).to  eq([2,1,3])
+      end
+
+      it "moves an item to the end if user renumbers it largest" do
+        post :update_queue, queue_items: [{"id" => "1", "position" => "4"},
+                                          {"id" => "2", "position" => "2"},
+                                          {"id" => "3", "position" => "3"}]
+        # the video_id's ordered by queue_position are 2, 3, 1
+        expect(QueuedVideo.where(user_id: session[:user_id]).order('queue_position').map(&:video_id)).to  eq([2,3,1])
+      end
+
+      it "sorts out duplicate numbers in a default way" do
+        post :update_queue, queue_items: [{"id" => "1", "position" => "3"},
+                                          {"id" => "2", "position" => "2"},
+                                          {"id" => "3", "position" => "3"}]
+        # the video_id's ordered by queue_position are 2, 1, 3 (the
+        # videos are passed to the sorter in their original
+        # order. when they are reordered, there is a tie between 1,3,
+        # but since we come across 1 before 3, it is renumbered first.
+        expect(QueuedVideo.where(user_id: session[:user_id]).order('queue_position').map(&:video_id)).to  eq([2, 1, 3])
+      end
+    end
   end
 
   describe "GET new" do
