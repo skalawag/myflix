@@ -36,6 +36,8 @@ Myflix::Application.routes.draw do
     end
   end
 
+  post 'update_queue', to: 'users#update_queue'
+
   # sessions
   resource :session, only: [:new, :create], as: :login
   get '/logout', to: 'session#destroy'
