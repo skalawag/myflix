@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   end
 
   def queue
-    @queued_videos = current_user.videos
+    @queued_videos = current_user.videos.order('queue_position')
   end
 
   private
