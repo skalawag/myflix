@@ -13,10 +13,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def queue
-    @queued_videos = current_user.videos.order('queue_position')
-  end
-
   def update_queue
     queue_items = params[:queue_items].sort { |i,j| i['position'] <=> j['position'] }
     position_counter = 1

@@ -30,12 +30,9 @@ Myflix::Application.routes.draw do
   # get '/registration', to: 'users#new', as: :registration
   # post '/registration', to: 'users#create', as: :register
   ## FIXME: this is going to break some links on the start page
-  resources :users, only: [:new, :create] do
-    member do
-      get :queue
-    end
-  end
+  resources :users, only: [:new, :create]
 
+  get 'queue', to: 'userscontroller#queue'
   post 'update_queue', to: 'users#update_queue'
 
   # sessions
