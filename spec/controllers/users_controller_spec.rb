@@ -46,6 +46,7 @@ describe UsersController do
         end
       end
 
+      # video 1 is in queue_position 1, etc.
       it "test setup is correct" do
         expect(QueuedVideo.all.map(&:'video_id')).to eq(Video.all.map(&:id))
       end
@@ -72,8 +73,9 @@ describe UsersController do
                                           {"id" => "3", "position" => "3"}]
         # the video_id's ordered by queue_position are 2, 1, 3 (the
         # videos are passed to the sorter in their original
-        # order. when they are reordered, there is a tie between 1,3,
-        # but since we come across 1 before 3, it is renumbered first.
+        # queue_position order, so when they are reordered, there is a
+        # tie between 1,3. but since the sorter comes across 1 before
+        # it comes across 3, 1 is renumbered first.
         expect(QueuedVideo.where(user_id: session[:user_id]).order('queue_position').map(&:video_id)).to  eq([2, 1, 3])
       end
     end
