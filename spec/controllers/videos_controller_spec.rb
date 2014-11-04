@@ -9,13 +9,6 @@ describe VideosController do
       session[:user_id] = 1
     end
 
-    describe "GET add_to_queue" do
-      it "adds result to user's queue" do
-        get :add_to_queue, id: result.id
-        expect(User.first.videos.first).to eq(result)
-      end
-    end
-
     describe "GET show" do
 
       it "sets @video" do
