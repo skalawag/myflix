@@ -5,13 +5,7 @@ class QueuesController < ApplicationController
 
   def update_queue
     queue_items = params[:queue_items].sort { |i,j| i['position'] <=> j['position'] }
-    position_counter = 1
-    queue_items.each do |item|
-      queued_video = QueuedVideo.where(user_id: current_user.id,
-                                       video_id: item["id"])
-      queued_video.first.update(queue_position: position_counter)
-      position_counter += 1
-    end
+    sort_queued_items(queue_items)
     redirect_to queue_path
   end
 
