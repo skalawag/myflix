@@ -20,18 +20,6 @@ class VideosController < ApplicationController
     @videos = Video.search_by_title(params[:search_term])
   end
 
-  def add_to_queue
-    video = Video.find_by id: params[:id]
-    QueuedVideo.create(user_id: current_user.id, video_id: video.id, queue_position: current_user.videos.count + 1)
-    redirect_to queue_user_path(current_user.id)
-  end
-
-  def remove_from_queue
-    video = Video.find_by id: params[:id]
-    current_user.videos.delete(video)
-    redirect_to queue_user_path(current_user.id)
-  end
-
   def genre
     @category = Category.find params[:genre]
   end
