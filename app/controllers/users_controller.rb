@@ -13,10 +13,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def queue
-    @queued_videos = current_user.videos
-  end
-
   private
 
   def user_params

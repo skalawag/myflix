@@ -5,12 +5,7 @@ Myflix::Application.routes.draw do
   # synonym for videos
   get '/home', to: 'videos#index'
 
-  resources :videos, only: [:index] do
-    member do
-      get :add_to_queue
-      post :remove_from_queue
-    end
-  end
+  resources :videos, only: [:index]
 
   # this is a category route
   # maybe this should be: get '/category/:id', to: 'videos#genre', as: category
@@ -30,11 +25,12 @@ Myflix::Application.routes.draw do
   # get '/registration', to: 'users#new', as: :registration
   # post '/registration', to: 'users#create', as: :register
   ## FIXME: this is going to break some links on the start page
-  resources :users, only: [:new, :create] do
-    member do
-      get :queue
-    end
-  end
+  resources :users, only: [:new, :create]
+
+  get 'queue', to: 'queues#queue'
+  get '/add_to_queue/:id', to: 'queues#add_to_queue'
+  post '/remove_from_queue/:id', to: 'queues#remove_from_queue'
+  post 'update_queue', to: 'queues#update_queue'
 
   # sessions
   resource :session, only: [:new, :create], as: :login
