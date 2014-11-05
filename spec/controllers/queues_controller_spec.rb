@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe QueuesController do
+
   describe "GET add_to_queue" do
     let(:result) { Fabricate(:video, title: "Family Guy") }
 
@@ -16,7 +17,9 @@ describe QueuesController do
       end
 
       it "removes video from user's queue" do
-        User.first.videos << result
+        QueuedVideo.create(user_id: session[:user_id],
+                           video_id: result.id,
+                           queue_position: 1)
         post :remove_from_queue, id: Video.first.id
         expect(User.first.videos).to eq([])
       end
@@ -38,8 +41,11 @@ describe QueuesController do
       end
 
       it "sets @queued_videos to array of users queued videos if they exist" do
-        3.times do
-          user.videos << Fabricate(:video)
+        3.times do |n|
+          video = Fabricate(:video)
+          QueuedVideo.create(user_id: session[:user_id],
+                             video_id: video.id,
+                             queue_position: n + 1)
         end
         get :queue, id: user.id
         expect(assigns(:queued_videos).to_a).to eq(Video.all)
@@ -66,6 +72,13 @@ describe QueuesController do
                              video_id: video.id,
                              queue_position: n+1)
         end
+      end
+
+      it "fixes defective value 1.5 validation" do
+        post :update_queue, queue_items: [{"id" => "1", "position" => "2"},
+                                          {"id" => "2", "position" => "1"},
+                                          {"id" => "3", "position" => "1.5"}]
+        expect(QueuedVideo.where(video_id: 1).first.queue_position).to eq(3)
       end
 
       # video 1 is in queue_position 1, etc.

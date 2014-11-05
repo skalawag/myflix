@@ -1,6 +1,7 @@
 class QueuedVideo < ActiveRecord::Base
   belongs_to :user
   belongs_to :video
+  validates_numericality_of :queue_position, only_integer: true, greater_than: 0
 
   def self.renumber_queued_items(items, uid)
     position_counter = 1
