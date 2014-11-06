@@ -77,7 +77,8 @@ describe QueuesController do
       it "fixes defective value 1.5 validation" do
         post :update_queue, queue_items: [{"id" => "1", "position" => "2"},
                                           {"id" => "2", "position" => "1"},
-                                          {"id" => "3", "position" => "1.5"}]
+                                          {"id" => "3", "position" => "1.5"}],
+             ratings: []
         expect(QueuedVideo.where(video_id: 1).first.queue_position).to eq(3)
       end
 
@@ -89,7 +90,8 @@ describe QueuesController do
       it "swaps two items on the queue, where the user explicitly numbers them" do
         post :update_queue, queue_items: [{"id" => "1", "position" => "2"},
                                           {"id" => "2", "position" => "1"},
-                                          {"id" => "3", "position" => "3"}]
+                                          {"id" => "3", "position" => "3"}],
+             ratings: []
         # the video_id's ordered by queue_position are 2, 1, 3
         expect(QueuedVideo.where(user_id: session[:user_id]).order('queue_position').map(&:video_id)).to  eq([2,1,3])
       end
@@ -97,7 +99,8 @@ describe QueuesController do
       it "moves an item to the end if user renumbers it largest" do
         post :update_queue, queue_items: [{"id" => "1", "position" => "4"},
                                           {"id" => "2", "position" => "2"},
-                                          {"id" => "3", "position" => "3"}]
+                                          {"id" => "3", "position" => "3"}],
+             ratings: []
         # the video_id's ordered by queue_position are 2, 3, 1
         expect(QueuedVideo.where(user_id: session[:user_id]).order('queue_position').map(&:video_id)).to  eq([2,3,1])
       end
@@ -105,7 +108,8 @@ describe QueuesController do
       it "sorts out duplicate numbers in a default way" do
         post :update_queue, queue_items: [{"id" => "1", "position" => "3"},
                                           {"id" => "2", "position" => "2"},
-                                          {"id" => "3", "position" => "3"}]
+                                          {"id" => "3", "position" => "3"}],
+             ratings: []
         # the video_id's ordered by queue_position are 2, 1, 3 (the
         # videos are passed to the sorter in their original
         # queue_position order, so when they are reordered, there is a

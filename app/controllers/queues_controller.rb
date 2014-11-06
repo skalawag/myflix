@@ -6,6 +6,7 @@ class QueuesController < ApplicationController
   def update_queue
     queue_items = params[:queue_items].sort { |i,j| i['position'] <=> j['position'] }
     QueuedVideo.renumber_queued_items(queue_items, current_user.id)
+    current_user.update_ratings(params[:ratings])
     redirect_to queue_path
   end
 
