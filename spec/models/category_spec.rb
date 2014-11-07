@@ -7,24 +7,20 @@ describe Category do
 end
 
 describe "Category.recent_videos" do
+
+  before { new_category }
+
   it "should return [] if there are no videos" do
-    cat = Category.create(name: "Test")
-    expect(cat.recent_videos).to eq([])
+    expect(Category.first.recent_videos).to eq([])
   end
 
   it "should return 3 videos in reverse chronological order" do
-    cat = Category.create(name: "Test")
-    3.times do |n|
-      cat.videos << Video.create(title: "#{n}", description: "#{n} description", created_at: n.days.ago)
-    end
-    expect(cat.recent_videos.to_a).to eq(Video.all)
+    categorize_m_videos(3)
+    expect(Category.first.recent_videos.to_a).to eq(Video.all)
   end
 
   it "should return most recent 6 videos" do
-    cat = Category.create(name: "Test")
-    10.times do |n|
-      cat.videos << Video.create(title: "#{n}", description: "#{n} description", created_at: n.days.ago)
-    end
-    expect(cat.recent_videos.to_a).to eq(Video.all[0..5])
+    categorize_m_videos(10)
+    expect(Category.first.recent_videos.to_a).to eq(Video.all[0..5])
   end
 end

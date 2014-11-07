@@ -4,8 +4,7 @@ describe SessionsController do
   describe "GET new" do
 
     it "redirects to home_path if current user exists" do
-      user = Fabricate(:user)
-      session[:user_id] = user.id
+      authenticated_user
       get :new
       expect(response).to redirect_to home_path
     end
@@ -17,10 +16,8 @@ describe SessionsController do
   end
 
   context "with user" do
-    before do
-      Fabricate(:user, username: "test_user",
-                email: "test_email", password: "test")
-    end
+
+    before { test_user }
 
     describe "POST create" do
       it "redirects to new_login_path if user doesn't exist" do
