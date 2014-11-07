@@ -49,3 +49,13 @@ def categorize_m_videos(m)
     Category.first.videos << Video.create(title: "#{n}", description: "#{n} description", created_at: n.days.ago)
   end
 end
+
+# For Feature Specs
+
+def sign_in_user
+  user = Fabricate(:user)
+  visit new_login_path
+  fill_in "Email", with: user.email
+  fill_in "Password", with: user.password
+  click_button "Submit"
+end
