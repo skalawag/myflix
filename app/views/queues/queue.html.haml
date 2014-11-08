@@ -19,21 +19,17 @@
                 %tr
                   %td
                     = hidden_field_tag "queue_items[][id]", video.id
-                    = text_field_tag "queue_items[][position]", @queued_videos.index(video) + 1
+                    = text_field_tag "queue_items[][position]", @queued_videos.index(video) + 1, id: "video_#{video.id}"
                   %td
-                    = link_to video.title
+                    = link_to video.title, show_path(video.id)
                   %td
                     = button_to "Play", nil, class: "btn btn-default"
                   %td
-                    %select.form-group(name="")
-                      %option(value="5") 5 Stars
-                      %option(value="4") 4 Stars
-                      %option(value="3") 3 Stars
-                      %option(value="2") 2 Stars
-                      %option(value="1") 1 Star
+                    = hidden_field_tag "ratings[][id]", video.id
+                    = select_tag "ratings[][rating]", options_for_select(["", "5 Stars", "4 Stars", "3 Stars", "2 Stars", "1 Star"], current_user.find_rating(video))
                   %td
                     = link_to video.categories.first.name
                   %td
-                    = link_to "/videos/#{video.id}/remove_from_queue", method: :post do
+                    = link_to "/remove_from_queue/#{video.id}", method: :post do
                       %i.glyphicon.glyphicon-remove
           = submit_tag "Update Instant Queue", class: "btn btn-default"
