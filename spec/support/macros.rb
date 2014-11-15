@@ -1,7 +1,7 @@
 # For queue_controller
 def authenticated_user
-  Fabricate(:user)
   session[:user_id] = 1
+  Fabricate(:user)
 end
 
 def create_queue
@@ -58,4 +58,26 @@ def sign_in_user
   fill_in "Email", with: user.email
   fill_in "Password", with: user.password
   click_button "Submit"
+end
+
+def create_some_categorized_videos
+  comedies = Fabricate(:category, name: "Comedies")
+  monk = Fabricate(:video, title: "Monk")
+  monk.categories << comedies
+  south_park = Fabricate(:video, title: "South Park")
+  south_park.categories << comedies
+  pinky_blinders = Fabricate(:video, title: "Pinky Blinders")
+  pinky_blinders.categories << comedies
+end
+
+def add_videos_to_user_queue(user, videos)
+  videos.to_enum.with_index(1).each do |video, i|
+    QueuedVideo.create(user_id: user.id, video_id: video.id, queue_position: i)
+  end
+end
+
+def fabricate_reviews_for_users_queued_videos(user)
+    user.videos.each do |video|
+      Fabricate(:review, user_id: user.id, video_id: video.id)
+    end
 end

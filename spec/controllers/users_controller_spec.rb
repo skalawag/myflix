@@ -1,6 +1,20 @@
 require 'spec_helper'
 
 describe UsersController do
+  describe "GET show" do
+    it "sets @user variable" do
+      user = authenticated_user
+      get :show, id: 1
+      expect(assigns(:user)).to eq(user)
+    end
+
+    it "should render show.html" do
+      user = authenticated_user
+      get :show, id: 1
+      expect(response).to render_template :show
+    end
+  end
+
   describe "GET new" do
     it "sets @user instance variable" do
       get :new

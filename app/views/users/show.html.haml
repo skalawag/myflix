@@ -1,0 +1,40 @@
+%section.user.container
+  .row
+    .col-sm-10.col-sm-offset-1
+      %article
+        %header
+          %img(src="http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest('@user.email'.downcase)}?s=40")
+          %h2 #{@user.username}'s video collections (#{@user.videos.count})
+          - if not current_user.followees.include?(@user)
+            %a.button.btn.btn-default.pull-right{:href => new_user_person_path(user_id: current_user.id, id: @user.id)} Follow
+          - else
+            %a.button.btn.btn-default.pull-right{:onclick => "alert('You already follow #{@user.username}')"} Follow
+        %table.table
+          %thead
+            %tr
+              %th(width="30%") Video Title
+              %th(width="15%") Genre
+          %tbody
+            - @user.videos.each do |video|
+              %tr
+                %td
+                  = link_to video.title
+                %td
+                  = link_to video.categories.first.name
+
+%section.user_reviews.container
+  .row
+    .col-sm-10.col-sm-offset-1
+      %header
+        %h3 #{@user.username}'s Reviews (#{@user.reviews.count})
+      %ul
+        - @user.reviews.each do |review|
+          %article.review
+            %li.row
+              .col-sm-2
+                %p
+                  = link_to Video.find(review.video_id).title
+                %col Rating: #{review.rating} / 5
+              .col-sm-8
+                %p
+                  = review.review

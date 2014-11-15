@@ -2,14 +2,10 @@ require 'spec_helper'
 
 feature "Sign in an existing user" do
   scenario "User signs in, selects a video and adds video to queue" do
-    # create some videos
-    comedies = Fabricate(:category, name: "Comedies")
-    monk = Fabricate(:video, title: "Monk")
-    monk.categories << comedies
-    south_park = Fabricate(:video, title: "South Park")
-    south_park.categories << comedies
-    pinky_blinders = Fabricate(:video, title: "Pinky Blinders")
-    pinky_blinders.categories << comedies
+    create_some_categorized_videos
+    monk = Video.find_by title: "Monk"
+    south_park = Video.find_by title: "South Park"
+    pinky_blinders = Video.find_by title: "Pinky Blinders"
 
     # sign in a user (see macros)
     sign_in_user
