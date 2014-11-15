@@ -26,7 +26,7 @@ Myflix::Application.routes.draw do
   # post '/registration', to: 'users#create', as: :register
   ## FIXME: this is going to break some links on the start page
   resources :users, only: [:new, :create, :show] do
-    resources :people, to: 'follower_relations', only: [:index, :destroy]
+    resources :people, to: 'follower_relations', only: [:index, :destroy, :new]
   end
 
   get 'queue', to: 'queues#queue'

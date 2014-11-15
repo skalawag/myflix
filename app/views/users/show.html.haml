@@ -5,7 +5,10 @@
         %header
           %img(src="http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest('@user.email'.downcase)}?s=40")
           %h2 #{@user.username}'s video collections (#{@user.videos.count})
-          %button.btn.btn-default Follow
+          - if not current_user.followees.include?(@user)
+            %a.button.btn.btn-default.pull-right{:href => new_user_person_path(user_id: current_user.id, id: @user.id)} Follow
+          - else
+            %a.button.btn.btn-default.pull-right{:onclick => "alert('You already follow #{@user.username}')"} Follow
         %table.table
           %thead
             %tr
