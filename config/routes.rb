@@ -36,7 +36,7 @@ Myflix::Application.routes.draw do
 
   # sessions
   resource :session, only: [:new, :create], as: :login
-  get '/logout', to: 'session#destroy'
+  get '/logout', to: 'sessions#destroy'
   # ## Can I do this?
   # resource :session, only: [:new, :create], as: :login do
   #   member do
