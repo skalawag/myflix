@@ -26,5 +26,5 @@ Myflix::Application.configure do
     user_name:            ENV['username'],
     password:             ENV['mail_pass'],
     authentication:       'plain',
-      enable_starttls_auto: true  }
+    enable_starttls_auto: true  }
 end
