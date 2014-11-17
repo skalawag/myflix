@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.valid? && @user.save
       AppMailer.welcome_email(@user).deliver
-      redirect_to home_path # with welcome
+      redirect_to home_path
     else
       @user.save
       render :new
