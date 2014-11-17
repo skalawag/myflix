@@ -23,44 +23,89 @@ describe UsersController do
   end
 
   describe "POST create" do
+    context "email sending" do
+      after { ActionMailer::Base.deliveries.clear }
+
+      it "sends an email to new user" do
+        post :create, user: {username: "Joe Small",
+                             email: "whatever@whatever.com",
+                             password: "hello"}
+        expect(ActionMailer::Base.deliveries).to_not be_empty
+      end
+
+      it "sends to the correct recipient" do
+        post :create, user: {username: "Joe Small",
+                             email: "whatever@whatever.com",
+                             password: "hello"}
+        msg = ActionMailer::Base.deliveries.first
+        expect(msg.to).to eq(["whatever@whatever.com"])
+      end
+
+      it "should have subject 'Welcome!'" do
+        post :create, user: {username: "Joe Small",
+                             email: "whatever@whatever.com",
+                             password: "hello"}
+        msg = ActionMailer::Base.deliveries.first
+        expect(msg.subject).to eq("Welcome!")
+      end
+
+      it "should use the user's name in the body" do
+        post :create, user: {username: "Joe Small",
+                             email: "whatever@whatever.com",
+                             password: "hello"}
+        msg = ActionMailer::Base.deliveries.first
+        expect(msg.body).to include("Joe Small")
+      end
+
+      it "should use the user's name in the body" do
+        post :create, user: {username: "Joe Small",
+                             email: "whatever@whatever.com",
+                             password: "hello"}
+        msg = ActionMailer::Base.deliveries.first
+        expect(msg.body).to include("Welcome to Myflix! Enjoy the service.")
+      end
+    end
+
     it "sets @user to a new user" do
-      post_create_new_user("Joe Small", "whatever@mail.com", "hello")
-      assigns(:user).should eq(User.first)
+      post :create, user: {username: "Joe Small",
+                           email: "whatever@whatever.com",
+                           password: "hello"}
+      expect(assigns(:user)).to eq(User.first)
     end
 
     it "should report 'can't be blank' without password" do
       post_create_new_user("Joe Small", "whatever@mail.com")
-      assigns(:user).errors.messages[:password].first.should eq("can't be blank")
+      expect(assigns(:user).errors.messages[:password].first).to eq("can't be blank")
     end
 
     it "should report 'can't be blank' without username" do
       post_create_new_user(nil, "whatever@mail.com", "password")
-      assigns(:user).errors.messages[:username].first.should eq("can't be blank")
+      expect(assigns(:user).errors.messages[:username].first).to eq("can't be blank")
     end
 
     it "should report 'can't be blank' without email" do
       post_create_new_user("Joe Small", nil, "password")
-      assigns(:user).errors.messages[:email].first.should eq("can't be blank")
+      expect(assigns(:user).errors.messages[:email].first).to eq("can't be blank")
     end
 
     it "renders index.html if user is valid and can be saved" do
       post_create_new_user("Joe Small", "whatever@gmail.com", "hello")
-      response.should redirect_to home_path
+      expect(response).to redirect_to home_path
     end
 
     it "should render :new without password" do
       post_create_new_user("Joe Small", "whatever@gmail.com")
-      response.should render_template :new
+      expect(response).to render_template :new
     end
 
     it "should render new without username" do
       post_create_new_user(nil, "whatever@gmail.com", "password")
-      response.should render_template :new
+      expect(response).to render_template :new
     end
 
     it "render new without email" do
       post_create_new_user("Joe Small", nil, "password")
-      response.should render_template :new
+      expect(response).to render_template :new
     end
   end
 end
