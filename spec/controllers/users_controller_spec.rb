@@ -4,7 +4,7 @@ describe UsersController do
   describe "GET show" do
     it "sets @user variable" do
       user = authenticated_user
-      get :show, id: 1
+      get :show, id: user.id
       expect(assigns(:user)).to eq(user)
     end
 
