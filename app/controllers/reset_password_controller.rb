@@ -6,6 +6,7 @@ class ResetPasswordController < ApplicationController
       AppMailer.reset_password(user.reload).deliver
       redirect_to reset_password_confirmation_path
     else
+      flash[:error] = "The email you entered is not a valid user's email."
       render :new
     end
   end
