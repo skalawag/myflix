@@ -13,7 +13,7 @@ describe NewPasswordController do
       user = Fabricate(:user)
       user.update_column(:token, 'asdf')
       get :show, id: 'asdf'
-      expect(User.find(user.id).token).to eq(nil)
+      expect(user.reload.token).to eq(nil)
     end
   end
 

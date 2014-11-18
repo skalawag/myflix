@@ -1,8 +1,12 @@
 class NewPasswordController < ApplicationController
   def show
     user = User.find_by(token: params[:id])
-    @user_id = user.id
-    user.update_column(:token, nil)
+    @user_id = user.id if user
+    if user
+      user.update_column(:token, nil)
+    else
+      render :expired_token
+    end
   end
 
   def create
