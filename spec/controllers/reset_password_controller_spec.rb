@@ -7,6 +7,12 @@ describe ResetPasswordController do
       expect(response).to render_template :new
     end
 
+    it "should set the user's token" do
+      user = Fabricate(:user, email: "xyz@xyz.com")
+      post :create, email: "xyz@xyz.com"
+      expect(User.find(user.id).token).to_not eq(nil)
+    end
+
     context "with email" do
       after { ActionMailer::Base.deliveries.clear }
 
