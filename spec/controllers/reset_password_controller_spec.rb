@@ -13,6 +13,18 @@ describe ResetPasswordController do
       expect(User.find(user.id).token).to_not eq(nil)
     end
 
+    it "should have display an error message if user's email cannot be found" do
+      user = Fabricate(:user, email: "xyz@xyz.com")
+      post :create, email: "xzz@xyz.com"
+      expect(flash[:error]).to eq("The email you entered is not a valid user's email.")
+    end
+
+    it "should render new when email is invalid" do
+      user = Fabricate(:user, email: "xyz@xyz.com")
+      post :create, email: "xzz@xyz.com"
+      expect(response).to render_template :new
+    end
+
     context "with email" do
       after { ActionMailer::Base.deliveries.clear }
 
