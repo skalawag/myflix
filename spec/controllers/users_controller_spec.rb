@@ -29,14 +29,14 @@ describe UsersController do
       it "sends an email to new user" do
         post :create, user: {username: "Joe Small",
                              email: "whatever@whatever.com",
-                             password: "hello"}
+                             password: "hellogeorge"}
         expect(ActionMailer::Base.deliveries).to_not be_empty
       end
 
       it "sends to the correct recipient" do
         post :create, user: {username: "Joe Small",
                              email: "whatever@whatever.com",
-                             password: "hello"}
+                             password: "hellogeorge"}
         msg = ActionMailer::Base.deliveries.first
         expect(msg.to).to eq(["whatever@whatever.com"])
       end
@@ -44,7 +44,7 @@ describe UsersController do
       it "should have subject 'Welcome!'" do
         post :create, user: {username: "Joe Small",
                              email: "whatever@whatever.com",
-                             password: "hello"}
+                             password: "hellogeorge"}
         msg = ActionMailer::Base.deliveries.first
         expect(msg.subject).to eq("Welcome!")
       end
@@ -52,7 +52,7 @@ describe UsersController do
       it "should use the user's name in the body" do
         post :create, user: {username: "Joe Small",
                              email: "whatever@whatever.com",
-                             password: "hello"}
+                             password: "hellogeorge"}
         msg = ActionMailer::Base.deliveries.first
         expect(msg.body).to include("Joe Small")
       end
@@ -60,7 +60,7 @@ describe UsersController do
       it "should use the user's name in the body" do
         post :create, user: {username: "Joe Small",
                              email: "whatever@whatever.com",
-                             password: "hello"}
+                             password: "hellogeorge"}
         msg = ActionMailer::Base.deliveries.first
         expect(msg.body).to include("Welcome to Myflix! Enjoy the service.")
       end
@@ -69,7 +69,7 @@ describe UsersController do
     it "sets @user to a new user" do
       post :create, user: {username: "Joe Small",
                            email: "whatever@whatever.com",
-                           password: "hello"}
+                           password: "hellogeorge"}
       expect(assigns(:user)).to eq(User.first)
     end
 
@@ -89,7 +89,7 @@ describe UsersController do
     end
 
     it "renders index.html if user is valid and can be saved" do
-      post_create_new_user("Joe Small", "whatever@gmail.com", "hello")
+      post_create_new_user("Joe Small", "whatever@gmail.com", "hellogeorge")
       expect(response).to redirect_to home_path
     end
 

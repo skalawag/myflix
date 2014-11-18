@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   validates_presence_of :email, :username, :password
   validates_uniqueness_of :email
+  validates_length_of :password, minimum: 6
   has_secure_password validations: false
   has_many :reviews
 

@@ -7,6 +7,7 @@ describe User do
   it { should have_many :reviews }
   it { should have_many :queued_videos }
   it { should have_many :videos }
+  it { should ensure_length_of(:password).is_at_least(6) }
 
   context "with user and video" do
     before do
