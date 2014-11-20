@@ -15,9 +15,10 @@ describe FollowerRelationsController do
 
       it "should set @followees to a user if user follows exactly 1 person" do
         user = User.first
-        user.followees << Fabricate(:user)
+        followee = Fabricate(:user)
+        user.followees << followee
         get :index, user_id: user.id
-        expect(assigns(:followees)).to eq([User.second])
+        expect(assigns(:followees).first).to eq(followee)
       end
 
       it "should render index" do
@@ -28,8 +29,9 @@ describe FollowerRelationsController do
 
     describe "DELETE destroy" do
       it "should remove followee with params[:id] from current_user followees" do
-        User.first.followees << Fabricate(:user)
-        delete :destroy, user_id: 1, id: 2
+        followee = Fabricate(:user)
+        User.first.followees << followee
+        delete :destroy, user_id: 1, id: followee.id
         expect(User.first.followees).to eq([])
       end
       it "should redirect_to users_people_path" do
