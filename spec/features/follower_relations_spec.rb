@@ -11,4 +11,11 @@ feature "Users can follow other users" do
     find("a[href='/users/#{user.id}/people/#{fab.id}']").click
     expect(page).to_not have_content('Fab')
   end
+
+  scenario "User can follow link to people page from home page" do
+    sign_in_user
+    user = User.first
+    find("a[href='/users/#{user.id}/people']").click
+    expect(page).to have_content("People I Follow")
+  end
 end
