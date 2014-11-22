@@ -14,5 +14,7 @@ class InvitationsController < ApplicationController
   end
 
   def show
+    @user = User.new
+    @invitation = Invitation.find_by(token: params[:id])
   end
 end
