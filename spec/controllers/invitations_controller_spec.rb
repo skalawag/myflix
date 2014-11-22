@@ -12,7 +12,7 @@ describe InvitationsController do
     after { ActionMailer::Base.deliveries.clear }
 
     describe "POST create" do
-      it "redirects to home path after invitation" do
+      it "redirects to home path after successful invitation made" do
         user = Fabricate(:user)
         session[:user_id] = user.id
         get :create, name: "Joey", email: "joey@joey.com", message: "Come join the party"
