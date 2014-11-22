@@ -21,22 +21,22 @@ describe SessionsController do
 
     describe "POST create" do
       it "redirects to new_login_path if user doesn't exist" do
-        post :create, email: "test_email", password: "testtest"
+        post :create, email: "testemail@mail.com", password: "testtest"
         expect(response).to redirect_to home_path
       end
 
       it "redirects to new_login_path if user exists but fails to authenticate" do
-        post :create, email: "test_email", password: "notests"
+        post :create, email: "testemail@gmail.com", password: "notests"
         expect(response).to redirect_to new_login_path
       end
 
       it "sets session[:user_id] if user exists and authenticates" do
-        post :create, email: "test_email", password: "testtest"
+        post :create, email: "testemail@mail.com", password: "testtest"
         expect(session[:user_id]).to eq(1)
       end
 
       it "redirects to home_path if user exists and authenticates" do
-        post :create, email: "test_email", password: "testtest"
+        post :create, email: "testemail@mail.com", password: "testtest"
         expect(request).to redirect_to home_path
       end
     end

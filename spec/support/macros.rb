@@ -28,7 +28,7 @@ end
 
 # For users_controller
 def test_user
-  Fabricate(:user, username: "test_user", email: "test_email", password: "testtest")
+  Fabricate(:user, username: "test_user", email: "testemail@mail.com", password: "testtest")
 end
 
 def post_create_new_user(username=nil, email=nil, password=nil)
