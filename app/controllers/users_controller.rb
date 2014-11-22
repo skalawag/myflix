@@ -8,6 +8,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.valid? && @user.save
       AppMailer.welcome_email(@user).deliver
+      follow_if_invited(@user)
       delete_invite_if_invited(@user)
       redirect_to home_path
     else
@@ -23,6 +24,14 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:username, :password, :email)
+  end
+
+  def follow_if_invited(user)
+    if invitation = Invitation.find_by(new_user_email: user.email)
+      inviter = User.find(invitation.user_id)
+      inviter.followees << user
+      user.followees << inviter
+    end
   end
 
   def delete_invite_if_invited(user)
