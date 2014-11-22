@@ -16,5 +16,8 @@ class InvitationsController < ApplicationController
   def show
     @user = User.new
     @invitation = Invitation.find_by(token: params[:id])
+    if not @invitation
+      redirect_to new_user_path
+    end
   end
 end
