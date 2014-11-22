@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :follower_relations
   has_many :followees, through: :follower_relations
+  has_many :invitations
 
   validates_presence_of :email, :username, :password
   validates_uniqueness_of :email
