@@ -3,6 +3,7 @@
 %p Your friend, #{@inviter}, invites you to join Myflix. To join Myflix, or to see what Myflix has to offer, follow the link below.
 %br
 = link_to "Myflix Registration", new_user_url
+= hidden_field_tag :inviter_email, @inviter_email
 
 %br
 %p Yours Truly,
