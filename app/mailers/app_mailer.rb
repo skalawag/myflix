@@ -9,8 +9,8 @@ class AppMailer < ActionMailer::Base
     mail to: user.email, from: 'wagflix@gmail.com', subject: 'Password reset'
   end
 
-  def invite_friend(name, email, message, inviter)
-    @name, @message, @inviter = name, message, inviter
+  def invite_friend(name, email, message, inviter, inviter_email)
+    @name, @message, @inviter, @inviter_email = name, message, inviter, inviter_email
     mail to: email, from: 'wagflix@gmail.com', subject: "An invitation from #{inviter}!"
   end
 end
