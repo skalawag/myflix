@@ -4,4 +4,7 @@ class InvitationsController < ApplicationController
     flash[:success] = "Your invitation has been sent."
     redirect_to home_path
   end
+
+  def show
+  end
 end
