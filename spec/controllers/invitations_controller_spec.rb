@@ -14,16 +14,18 @@ describe InvitationsController do
       expect(assigns(:user)).to be_a(User)
     end
 
-    it "has an invitation if one exists" do
-      invite = Fabricate(:invitation)
-      get :show, id: invite.token
-      expect(assigns(:invitation)).to be_a(Invitation)
-    end
+    context "with invitation" do
+      before { Fabricate(:invitation) }
 
-    it "renders show template" do
-      invite = Fabricate(:invitation)
-      get :show, id: invite.token
-      expect(response).to render_template :show
+      it "has an invitation if one exists" do
+        get :show, id: Invitation.first.token
+        expect(assigns(:invitation)).to be_a(Invitation)
+      end
+
+      it "renders show template" do
+        get :show, id: Invitation.first.token
+        expect(response).to render_template :show
+      end
     end
 
     it "redirects to new_user_path if there is no invitation" do
@@ -36,39 +38,36 @@ describe InvitationsController do
     after { ActionMailer::Base.deliveries.clear }
 
     describe "POST create" do
+      before { authenticated_user }
+      let(:user) { User.first }
+
       it "should be valid" do
-        user = authenticated_user
         post :create, name: "Mark Scala", email: "markscala@gmail.com", message: "Hey, join up."
         invite = Invitation.first
         expect(invite).to be_a(Invitation)
       end
 
       it "sets flash success if successful" do
-        user = authenticated_user
         post :create, name: "Mark Scala", email: "markscala@gmail.com", message: "Hey, join up."
         expect(flash[:success]).to eq("Your invitation has been sent.")
       end
 
       it "redirects to home path after successful invitation made" do
-        user = authenticated_user
         post :create, name: "Mark Scala", email: "markscala@gmail.com", message: "Hey, join up."
         expect(response).to redirect_to home_path
       end
 
       it "sets flash error if unsuccessful because email fails" do
-        user = authenticated_user
         post :create, name: "Mark Scala", email: "", message: "Hey, join up."
         expect(flash[:error]).to eq("Something was wrong with your invitation.")
       end
 
       it "sets flash error if unsuccessful because name is missing" do
-        user = authenticated_user
         post :create, name: "", email: "markscala@gmail.com", message: "Hey, join up."
         expect(flash[:error]).to eq("Something was wrong with your invitation.")
       end
 
       it "renders new if unsuccessful" do
-        user = authenticated_user
         post :create, name: "", email: "markscala@gmail.com", message: "Hey, join up."
         expect(response).to render_template :new
       end
