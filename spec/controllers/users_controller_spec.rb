@@ -107,5 +107,26 @@ describe UsersController do
       post_create_new_user("Joe Small", nil, "password")
       expect(response).to render_template :new
     end
+
+    it "inviter should be following new user" do
+      user1 = Fabricate(:user)
+      user2 = User.new(username: "Bilbo", email: "bilbo@bilbo.com", password: "asdfasdf")
+      Invitation.create(new_user_email: user2.email, new_user_name: user2.username, token: "asdf", user_id: user1.id)
+      post :create, user: {username: user2.username,
+                           email: user2.email,
+                           password: user2.password}
+      expect(user1.followees).to include(User.second)
+    end
+
+
+    it "new user should be following inviter" do
+      user1 = Fabricate(:user)
+      user2 = User.new(username: "Bilbo", email: "bilbo@bilbo.com", password: "asdfasdf")
+      Invitation.create(new_user_email: user2.email, new_user_name: user2.username, token: "asdf", user_id: user1.id)
+      post :create, user: {username: user2.username,
+                           email: user2.email,
+                           password: user2.password}
+      expect(User.second.followees).to include(user1)
+    end
   end
 end

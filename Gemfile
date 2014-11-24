@@ -27,6 +27,7 @@ group :development, :test do
   gem 'rspec-rails', '2.99'
   gem 'fabrication'
   gem 'faker'
+  gem 'capybara-email'
 end
 
 group :test do

@@ -1,9 +1,11 @@
 class User < ActiveRecord::Base
   has_many :follower_relations
   has_many :followees, through: :follower_relations
+  has_many :invitations
 
   validates_presence_of :email, :username, :password
   validates_uniqueness_of :email
+  validates_format_of :email, with: /\A[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}\z/, on: :create
   validates_length_of :password, minimum: 6
   has_secure_password validations: false
   has_many :reviews

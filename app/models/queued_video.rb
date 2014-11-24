@@ -11,7 +11,7 @@ class QueuedVideo < ActiveRecord::Base
                                          video_id: item["id"])
         queued_video.first.update(queue_position: position_counter)
         position_counter += 1
-    end
+      end
     end
   end
 end
