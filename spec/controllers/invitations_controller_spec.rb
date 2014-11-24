@@ -36,7 +36,7 @@ describe InvitationsController do
     after { ActionMailer::Base.deliveries.clear }
 
     describe "POST create" do
-      it "invitation to be valid" do
+      it "should be valid" do
         user = authenticated_user
         post :create, name: "Mark Scala", email: "markscala@gmail.com", message: "Hey, join up."
         invite = Invitation.first

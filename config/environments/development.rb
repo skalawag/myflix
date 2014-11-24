@@ -29,4 +29,8 @@ Myflix::Application.configure do
   config.assets.debug = true
 
   config.eager_load = false
+
+  ## For better errors
+  #config.consider_all_requests_local = true
+  BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP'] if ENV['TRUSTED_IP']
 end

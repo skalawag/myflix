@@ -40,6 +40,7 @@ Myflix::Application.routes.draw do
 
   get 'reset_password', to: 'reset_password#new'
   get 'reset_password_confirmation', to: 'reset_password#confirm'
+
   resources :reset_password, only: [:create]
   resources :new_password, only: [:show, :create]
   resources :invitations, only: [:new, :create, :show]
