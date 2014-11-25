@@ -1,6 +1,6 @@
 class InvitationsController < ApplicationController
   def create
-    token = SecureRandom.urlsafe_base64
+    token = generate_token
     invitation = Invitation.create(user_id: current_user.id, new_user_email: params[:email], new_user_name: params[:name], token: token)
 
     if invitation.valid?
