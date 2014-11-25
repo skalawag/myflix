@@ -14,7 +14,7 @@ Myflix::Application.configure do
   config.action_controller.allow_forgery_protection    = false
 
   config.action_mailer.delivery_method = :test
-  #config.action_mailer.default_url_options = {host: '192.168.1.2:3001'}
+
   config.action_mailer.default_url_options = { host: '0.0.0.0', port: 3001 }
 
   config.active_support.deprecation = :stderr

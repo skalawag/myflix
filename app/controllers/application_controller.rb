@@ -14,4 +14,8 @@ class ApplicationController < ActionController::Base
   def destroy_session
     session[:user_id] = nil
   end
+
+  def generate_token
+    SecureRandom.urlsafe_base64
+  end
 end

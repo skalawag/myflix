@@ -48,6 +48,8 @@ GEM
     capybara-email (2.4.0)
       capybara (~> 2.4)
       mail
+    celluloid (0.16.0)
+      timers (~> 4.0.0)
     coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -56,16 +58,23 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
+    connection_pool (2.1.0)
     daemons (1.1.9)
     database_cleaner (1.2.0)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
+    dotenv (0.11.1)
+      dotenv-deployment (~> 0.0.2)
+    dotenv-deployment (0.0.2)
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.2.2)
     fabrication (2.11.3)
     faker (1.4.3)
       i18n (~> 0.5)
+    foreman (0.75.0)
+      dotenv (~> 0.11.1)
+      thor (~> 0.19.1)
     haml (4.0.5)
       tilt
     haml-rails (0.5.3)
@@ -74,11 +83,13 @@ GEM
       haml (>= 3.1, < 5.0)
       railties (>= 4.0.1)
     hike (1.2.3)
+    hitimes (1.2.2)
     i18n (0.6.11)
     jquery-rails (3.1.2)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.1)
+    kgio (2.9.2)
     launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.2.0)
@@ -125,7 +136,11 @@ GEM
       activesupport (= 4.1.1)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
+    raindrops (0.13.0)
     rake (10.3.2)
+    redis (3.1.0)
+    redis-namespace (1.5.1)
+      redis (~> 3.0, >= 3.0.4)
     ref (1.0.5)
     rspec-collection_matchers (1.0.0)
       rspec-expectations (>= 2.99.0.beta1)
@@ -150,6 +165,12 @@ GEM
       sprockets-rails (~> 2.0)
     shoulda-matchers (2.7.0)
       activesupport (>= 3.0.0)
+    sidekiq (3.3.0)
+      celluloid (>= 0.16.0)
+      connection_pool (>= 2.0.0)
+      json
+      redis (>= 3.0.6)
+      redis-namespace (>= 1.3.1)
     slop (3.6.0)
     sprockets (2.11.0)
       hike (~> 1.2)
@@ -171,6 +192,8 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
+    timers (4.0.1)
+      hitimes
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -179,6 +202,10 @@ GEM
     uglifier (2.5.3)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unicorn (4.8.3)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -196,6 +223,7 @@ DEPENDENCIES
   database_cleaner (= 1.2.0)
   fabrication
   faker
+  foreman
   haml-rails
   jquery-rails
   letter_opener
@@ -207,7 +235,9 @@ DEPENDENCIES
   rspec-rails (= 2.99)
   sass-rails
   shoulda-matchers
+  sidekiq
   sqlite3
   therubyracer
   thin
   uglifier
+  unicorn
