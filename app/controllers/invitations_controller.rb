@@ -4,7 +4,7 @@ class InvitationsController < ApplicationController
     invitation = Invitation.create(user_id: current_user.id, new_user_email: params[:email], new_user_name: params[:name], token: token)
 
     if invitation.valid?
-      AppMailer.delay.invite_friend(params[:name], params[:email], params[:message], current_user.username, token).deliver
+      AppMailer.delay.invite_friend(params[:name], params[:email], params[:message], current_user.username, token)
       flash[:success] = "Your invitation has been sent."
       redirect_to home_path
     else

@@ -12,7 +12,7 @@ gem 'jquery-rails'
 gem 'therubyracer', platforms: :ruby
 gem 'bcrypt'
 gem 'sidekiq'
-
+gem 'foreman'
 
 group :development do
   gem 'sqlite3'
