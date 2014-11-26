@@ -14,7 +14,8 @@ gem 'bcrypt'
 gem 'sidekiq'
 gem 'foreman'
 gem 'unicorn'
-gem 'sentry-raven'
+gem 'sentry-raven', :require => 'raven'
+gem 'paratrooper'
 
 group :development do
   gem 'sqlite3'
