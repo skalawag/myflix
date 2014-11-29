@@ -6,7 +6,6 @@ Myflix::Application.routes.draw do
   get '/home', to: 'videos#index'
 
   resources :videos, only: [:index]
-
   namespace :admin do
     resources :videos, only: [:new, :create]
   end
@@ -48,4 +47,5 @@ Myflix::Application.routes.draw do
   resources :reset_password, only: [:create]
   resources :new_password, only: [:show, :create]
   resources :invitations, only: [:new, :create, :show]
+
 end

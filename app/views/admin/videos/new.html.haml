@@ -2,35 +2,31 @@
   .container
     .row
       .col-md-10.col-md-offset-1
-        = form_tag admin_videos_path do
+        = bootstrap_form_for [:admin, @video] do |f|
           %ul.nav.nav-tabs
             %li
               %a(href="/ui/admin_views_payments") Recent Payments
             %li.active
               %a(href="") Add a New Video
-            %br
           %fieldset
-            .form-horizontal
-              .form-group
-                .col-sm-3
-                  = label_tag :title
-                  = text_field_tag :title
-              .form-group
-                .col-sm-6
-                  = label_tag :category
-                  = select_tag "Category", @categories.html_safe
-              .form-group
-                .col-sm-6
-                  = label_tag :description
-                  = text_area_tag :description
-              .form-group
-                .col-sm-6
-                  = label_tag :large_cover
-                  = file_field_tag :large_cover
-              .form-group
-                .col-sm-6
-                  = label_tag :small_cover
-                  = file_field_tag :small_cover
-          %fieldset.actions.form-group
-            .col-sm-6.col-md-offset-3
-              %input(type="submit" value="Add Video" class="btn btn-default")
+            = f.text_field :title, class: "span3"
+            = label_tag "Categories"
+            %br
+            = select_tag "category", options_for_select(Category.all.collect { |c| [c.name, c.id] }), multiple: true
+            = f.text_area :description, rows: 8, class: "span6"
+
+            .control-group
+              %label.control-label.col-sm-3 Large Cover
+              .col-sm-6
+                %col.btn.btn-file
+                  %input.form-control(type="file")
+            .control-group
+              %br
+              %label.control-label.col-sm-3 Small Cover
+              .col-sm-6
+                %col.btn.btn-file
+                  %input.form-control(type="file")
+
+            %fieldset.actions.form-group
+              .col-sm-6.col-md-offset-3
+                %input(type="submit" value="Add Video" class="btn btn-default")

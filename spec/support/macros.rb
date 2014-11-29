@@ -4,6 +4,10 @@ def authenticated_user
   Fabricate(:user)
 end
 
+def set_current_admin(admin=nil)
+  session[:user_id] = (admin || Fabricate(:admin))
+end
+
 def create_queue
   3.times do |n|
     video = Fabricate(:video)
