@@ -6,6 +6,9 @@ Myflix::Application.routes.draw do
   get '/home', to: 'videos#index'
 
   resources :videos, only: [:index]
+  namespace :admin do
+    resources :videos, only: [:new]
+  end
 
   # this is a category route
   # maybe this should be: get '/category/:id', to: 'videos#genre', as: category
@@ -44,4 +47,5 @@ Myflix::Application.routes.draw do
   resources :reset_password, only: [:create]
   resources :new_password, only: [:show, :create]
   resources :invitations, only: [:new, :create, :show]
+
 end
