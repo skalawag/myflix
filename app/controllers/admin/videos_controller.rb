@@ -10,9 +10,10 @@ class Admin::VideosController < ApplicationController
       flash[:error] = "Try again!"
       redirect_to new_admin_video_path
     else
-      @categories = params[:category].map { |id| Category.find(id) }
       @video = Video.new(title: params[:video][:title], description: params[:video][:description])
+
       if @video.save
+        categorize_video(@video)
         flash[:success] = "Your video has been added."
         redirect_to home_path
       else
@@ -23,6 +24,13 @@ class Admin::VideosController < ApplicationController
   end
 
   private
+
+  def categorize_video(video)
+    categories = params[:category].map { |id| Category.find(id) }
+    categories.each do |cat|
+      video.categories << cat
+    end
+  end
 
   def require_admin
     if !current_user.admin

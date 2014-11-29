@@ -51,12 +51,7 @@ describe Admin::VideosController do
         expect(flash[:error]).to eq("Try again!")
       end
 
-      it "should have at least 1 @category set" do
-        post :create, video: {title: "Hello", description: "World"}, category: ["1"]
-        expect(assigns(:categories)).to eq([Category.first])
-      end
-
-      it "should set flash error when there is no category" do
+      it "should set flash error when there is no category is passed in" do
         post :create, video: {title: "Hello", description: "World"}
         expect(flash[:error]).to eq("Try again!")
       end
