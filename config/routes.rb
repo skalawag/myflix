@@ -7,7 +7,7 @@ Myflix::Application.routes.draw do
 
   resources :videos, only: [:index]
   namespace :admin do
-    resources :videos, only: [:new]
+    resources :videos, only: [:new, :create]
   end
 
   # this is a category route
