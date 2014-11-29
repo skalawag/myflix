@@ -15,7 +15,6 @@ gem 'bcrypt'
 gem 'sidekiq'
 gem 'foreman'
 gem 'unicorn'
-gem 'sentry-raven', :require => 'raven'
 gem 'paratrooper'
 
 group :development do
@@ -42,6 +41,7 @@ group :test do
 end
 
 group :production do
+  gem 'sentry-raven', :require => 'raven'
   gem 'pg'
   gem 'rails_12factor'
 end
