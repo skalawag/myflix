@@ -55,6 +55,11 @@ describe Admin::VideosController do
         post :create, video: {title: "Hello", description: "World"}
         expect(flash[:error]).to eq("Try again!")
       end
+
+      it "should correctly categorize videos" do
+        post :create, video: {title: "Hello", description: "World"}, category: ["1"]
+        expect(Video.first.categories.first.id).to eq(1)
+      end
     end
   end
 end
