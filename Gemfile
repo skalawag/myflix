@@ -16,6 +16,9 @@ gem 'sidekiq'
 gem 'foreman'
 gem 'unicorn'
 gem 'paratrooper'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'fog'
 
 group :development do
   gem 'sqlite3'
@@ -32,6 +35,7 @@ group :development, :test do
   gem 'fabrication'
   gem 'faker'
   gem 'capybara-email'
+  gem 'dotenv-rails'
 end
 
 group :test do
