@@ -9,7 +9,7 @@
           %span Rating: #{@average.round(1)} / 5.0
         %p #{@video.description}
         .actions
-          %a.btn.btn-primary(href="") Watch Now
+          %a.btn.btn-primary(href="#{@video.video_url}") Watch Now
           - if not current_user.queued_videos.find_by(video_id: @video.id)
             %a.btn.btn-default(href="/add_to_queue/#{@video.id}") + My Queue
 

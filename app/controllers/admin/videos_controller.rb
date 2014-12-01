@@ -10,12 +10,13 @@ class Admin::VideosController < ApplicationController
       flash[:error] = "Try again!"
       redirect_to new_admin_video_path
     else
-      @video = Video.new(title: params[:video][:title], description: params[:video][:description])
+      @video = Video.new(video_params)
+      # @video = Video.new(title: params[:video][:title], description: params[:video][:description], large_cover: params[:large_cover], small_cover: params[:small_cover])
 
       if @video.save
         categorize_video(@video)
         flash[:success] = "Your video has been added."
-        redirect_to home_path
+        redirect_to new_admin_video_path
       else
         flash[:error] = "Try again!"
         redirect_to new_admin_video_path
@@ -25,6 +26,9 @@ class Admin::VideosController < ApplicationController
 
   private
 
+  def video_params
+    params.require(:video).permit(:title, :description, :small_cover, :large_cover, :category, :video_url)
+  end
   def categorize_video(video)
     categories = params[:category].map { |id| Category.find(id) }
     categories.each do |cat|

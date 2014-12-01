@@ -33,7 +33,7 @@ describe Admin::VideosController do
 
       it "should redirect to home_path if video successfully saves" do
         post :create, video: { title: "Hello", description: "World"}, category: ["1"]
-        expect(response).to redirect_to home_path
+        expect(response).to redirect_to new_admin_video_path
       end
 
       it "should set success message if video successfully saves" do
