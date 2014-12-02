@@ -11,7 +11,6 @@ class Admin::VideosController < ApplicationController
       redirect_to new_admin_video_path
     else
       @video = Video.new(video_params)
-      # @video = Video.new(title: params[:video][:title], description: params[:video][:description], large_cover: params[:large_cover], small_cover: params[:small_cover])
 
       if @video.save
         categorize_video(@video)
