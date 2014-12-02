@@ -9,6 +9,10 @@ class Video < ActiveRecord::Base
   validates :title, presence: true
   validates :description, presence: true
 
+  mount_uploader :small_cover, SmallCoverUploader
+  mount_uploader :large_cover, LargeCoverUploader
+
+
   def self.search_by_title(title)
     where("title LIKE ?", "%#{title}%")
   end

@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 ruby '2.1.3'
 
 gem 'bootstrap-sass', '3.1.1.1'
+gem 'bootstrap_form'
 gem 'coffee-rails'
 gem 'rails', '4.1.1'
 gem 'haml-rails'
@@ -14,8 +15,10 @@ gem 'bcrypt'
 gem 'sidekiq'
 gem 'foreman'
 gem 'unicorn'
-gem 'sentry-raven', :require => 'raven'
 gem 'paratrooper'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'fog'
 
 group :development do
   gem 'sqlite3'
@@ -32,6 +35,7 @@ group :development, :test do
   gem 'fabrication'
   gem 'faker'
   gem 'capybara-email'
+  gem 'dotenv-rails'
 end
 
 group :test do
@@ -41,6 +45,7 @@ group :test do
 end
 
 group :production do
+  gem 'sentry-raven', :require => 'raven'
   gem 'pg'
   gem 'rails_12factor'
 end

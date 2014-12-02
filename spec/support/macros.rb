@@ -4,6 +4,10 @@ def authenticated_user
   Fabricate(:user)
 end
 
+def set_current_admin(admin=nil)
+  session[:user_id] = (admin || Fabricate(:admin))
+end
+
 def create_queue
   3.times do |n|
     video = Fabricate(:video)
@@ -80,4 +84,8 @@ def fabricate_reviews_for_users_queued_videos(user)
     user.videos.each do |video|
       Fabricate(:review, user_id: user.id, video_id: video.id)
     end
+end
+
+def sign_out
+  visit '/logout'
 end
