@@ -85,3 +85,7 @@ def fabricate_reviews_for_users_queued_videos(user)
       Fabricate(:review, user_id: user.id, video_id: video.id)
     end
 end
+
+def sign_out
+  visit '/logout'
+end
