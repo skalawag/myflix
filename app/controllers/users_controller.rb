@@ -10,6 +10,12 @@ class UsersController < ApplicationController
       AppMailer.welcome_email(@user).deliver
       follow_if_invited(@user)
       delete_invite_if_invited(@user)
+      Stripe::Charge.create(
+        :amount => 999,
+        :currency => "usd",
+        :card => params[:stripeToken],
+        :description => "Sign up charge for #{@user.email}"
+      )
       redirect_to home_path
     else
       render :new
