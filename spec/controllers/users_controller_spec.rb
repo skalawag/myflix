@@ -23,9 +23,9 @@ describe UsersController do
   end
 
   describe "POST create" do
+    before { StripeWrapper::Charge.stub(:create) }
     context "email sending" do
       after { ActionMailer::Base.deliveries.clear }
-
       it "sends an email to new user" do
         post :create, user: {username: "Joe Small",
                              email: "whatever@whatever.com",

@@ -5,6 +5,7 @@ require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/email/rspec'
 require 'sidekiq/testing'
+require 'vcr'
 Sidekiq::Testing.inline!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -24,7 +25,11 @@ ActionDispatch::IntegrationTest
   Capybara.server_port = 3001
   Capybara.app_host = 'http://0.0.0.0'
 
-
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/cassettes'
+  c.hook_into :webmock
+  c.configure_rspec_metadata!
+end
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -34,6 +39,9 @@ RSpec.configure do |config|
   # config.mock_with :mocha
   # config.mock_with :flexmock
   # config.mock_with :rr
+
+  # config for vcr
+  config.treat_symbols_as_metadata_keys_with_true_values = true
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -68,4 +76,5 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/v/3-0/docs
   config.infer_spec_type_from_file_location!
+
 end
