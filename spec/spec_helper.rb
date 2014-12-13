@@ -4,8 +4,12 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/email/rspec'
+require 'capybara/poltergeist'
 require 'sidekiq/testing'
 require 'vcr'
+
+
+
 Sidekiq::Testing.inline!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -29,7 +33,24 @@ VCR.configure do |c|
   c.cassette_library_dir = 'spec/cassettes'
   c.hook_into :webmock
   c.configure_rspec_metadata!
+  c.ignore_localhost = true
 end
+
+Capybara.server_port = 52662
+
+Capybara.register_driver :poltergeist do |app|
+  options = {
+    :js_errors => false,
+    :timeout => 120,
+    :debug => false,
+    :phantomjs_options => ['--load-images=no', '--disk-cache=false', '--ignore-ssl-errors=yes'],
+    :inspector => true
+  }
+  Capybara::Poltergeist::Driver.new(app, options)
+end
+
+Capybara.default_wait_time = 30
+Capybara.javascript_driver = :poltergeist
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -77,4 +98,25 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/v/3-0/docs
   config.infer_spec_type_from_file_location!
 
+  # configuration for database_cleaner, from
+  # https://www.gotealeaf.com/lessons/d725133e/assignments/1843
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each, :js => true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
