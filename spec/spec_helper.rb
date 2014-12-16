@@ -6,8 +6,14 @@ require 'capybara/rails'
 require 'capybara/email/rspec'
 require 'capybara/poltergeist'
 require 'sidekiq/testing'
+<<<<<<< HEAD
 
 Capybara.javascript_driver = :poltergeist
+=======
+require 'vcr'
+
+
+>>>>>>> WEEK7a-swipewrapper
 
 Sidekiq::Testing.inline!
 
@@ -29,6 +35,7 @@ ActiveRecord::Migration.maintain_test_schema!
 #   Capybara.app_host = 'http://0.0.0.0:3001'
 
 RSpec.configure do |config|
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -51,4 +58,26 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/v/3-0/docs
   config.infer_spec_type_from_file_location!
+
+  # configuration for database_cleaner, from
+  # https://www.gotealeaf.com/lessons/d725133e/assignments/1843
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each, :js => true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
