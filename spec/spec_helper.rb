@@ -6,14 +6,9 @@ require 'capybara/rails'
 require 'capybara/email/rspec'
 require 'capybara/poltergeist'
 require 'sidekiq/testing'
-<<<<<<< HEAD
-
-Capybara.javascript_driver = :poltergeist
-=======
 require 'vcr'
 
-
->>>>>>> WEEK7a-swipewrapper
+Capybara.javascript_driver = :poltergeist
 
 Sidekiq::Testing.inline!
 
