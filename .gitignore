@@ -16,3 +16,5 @@
 
 # Environment vars
 .env
+/log/screen.png
+/log/screen2.png
