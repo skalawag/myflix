@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe UsersController do
-  describe "GET show" do
+  describe "GET show", {vcr: true} do
     it "sets @user variable" do
       user = authenticated_user
       get :show, id: user.id
@@ -79,12 +79,16 @@ describe UsersController do
         expect(msg.body).to include("Welcome to Myflix! Enjoy the service.")
       end
 
+      it "sets flash success message" do
+        expect(flash[:success]).to eq("Thank you for choosing Myflix. Please sign in!")
+      end
+
       it "sets @user to a new user" do
         expect(assigns(:user)).to eq(User.first)
       end
 
       it "renders index.html if user is valid and can be saved" do
-        expect(response).to redirect_to home_path
+        expect(response).to redirect_to new_login_path
       end
     end
 

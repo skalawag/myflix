@@ -9,6 +9,19 @@ require 'sidekiq/testing'
 require 'vcr'
 
 Capybara.javascript_driver = :poltergeist
+Capybara.server_port = 52662
+Capybara.register_driver :poltergeist do |app|
+  options = {
+    :js_errors => false,
+    :timeout => 120,
+    :debug => false,
+    :phantomjs_options => ['--load-images=no', '--disk-cache=false', '--ignore-ssl-errors=yes'],
+    :inspector => true
+  }
+  Capybara::Poltergeist::Driver.new(app, options)
+end
+
+Capybara.default_wait_time = 30
 
 Sidekiq::Testing.inline!
 
@@ -28,6 +41,13 @@ ActiveRecord::Migration.maintain_test_schema!
 # ActionDispatch::IntegrationTest
 #   Capybara.server_port = 3001
 #   Capybara.app_host = 'http://0.0.0.0:3001'
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/cassettes'
+  c.hook_into :webmock
+  c.configure_rspec_metadata!
+  c.ignore_localhost = true
+end
 
 RSpec.configure do |config|
 
@@ -56,6 +76,7 @@ RSpec.configure do |config|
 
   # configuration for database_cleaner, from
   # https://www.gotealeaf.com/lessons/d725133e/assignments/1843
+  config.use_transactional_fixtures = false
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end

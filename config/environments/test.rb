@@ -15,7 +15,8 @@ Myflix::Application.configure do
 
   config.action_mailer.delivery_method = :test
 
-  config.action_mailer.default_url_options = { host: '0.0.0.0', port: 3001 }
+  #config.action_mailer.default_url_options = { host: '0.0.0.0', port: 3001 }
+  config.action_mailer.default_url_options = { host: 'localhost:52662' }
 
   config.active_support.deprecation = :stderr
 end

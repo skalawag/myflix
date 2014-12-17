@@ -3,7 +3,7 @@ require 'spec_helper'
 describe StripeWrapper do
   describe StripeWrapper::Charge do
     describe ".create" do
-      it "successfully charges user's card", :vcr do
+      it "successfully charges user's card", {vcr: true} do
         token = Stripe::Token.create(
           :card => {
             :number => "4242424242424242",
@@ -22,7 +22,7 @@ describe StripeWrapper do
         expect(response).to be_successful
       end
 
-      it "handles a declined charge", :vcr do
+      it "handles a declined charge", {vcr: true} do
         token = Stripe::Token.create(
           :card => {
             :number => "4000000000000002",
@@ -41,7 +41,7 @@ describe StripeWrapper do
         expect(response).not_to be_successful
       end
 
-      it "returns the error message for declined charges", :vcr do
+      it "returns the error message for declined charges", {vcr: true} do
         token = Stripe::Token.create(
           :card => {
             :number => "4000000000000002",
