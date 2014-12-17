@@ -6,9 +6,8 @@ class VideosController < ApplicationController
   end
 
   def show
-    @video = Video.find(params[:id])
+    @video = Video.find(params[:id]).decorate
     @reviews = @video.reviews
-    @average = @video.average_rating
     @review = Review.new(user_id: current_user.id, video_id: @video.id)
   end
 
