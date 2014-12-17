@@ -14,13 +14,10 @@ class UsersController < ApplicationController
         :description => "Sign up charge for #{@user.email}"
       )
       if stripe.successful?
-
         @user.save
         AppMailer.welcome_email(@user).deliver
-
         handle_invitation(@user)
         flash[:success] = "Thank you for choosing Myflix. Please sign in!"
-
         redirect_to new_login_path
       else
         flash[:error] = stripe.error_message
